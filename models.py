@@ -11,7 +11,7 @@ class Professor(Base):
     name = Column(String)
 
 class SchoolClass(Base):
-    __tablename__ = 'class'
+    __tablename__ = 'schoolclass'
     id = Column(Integer, primary_key=True)
     name = Column(String)
     days = Column(String)

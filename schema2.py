@@ -20,5 +20,5 @@ class Professor(SQLAlchemyObjectType):
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
     all_classes = SQLAlchemyConnectionField(SchoolClass)
-
+    all_professors = SQLAlchemyConnectionField(Professor)
 schema = graphene.Schema(query=Query)
