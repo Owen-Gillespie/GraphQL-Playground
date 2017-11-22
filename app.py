@@ -1,11 +1,30 @@
 from flask import Flask
-from database import engine, db_session, init_db
+from database import init_db, db_session
 from flask_graphql import GraphQLView
-from schema2 import schema 
+from schema import schema 
 
 app = Flask(__name__)
 app.debug = True
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+default_query = '''
+{
+  allProfessors{
+    edges {
+      node {
+        id,
+        name,
+        department {
+          id,
+          name
+        },
+        role {
+          id,
+          name
+        }
+      }
+    }
+  }
+}'''.strip()
 
 app.add_url_rule(
     '/graphql',

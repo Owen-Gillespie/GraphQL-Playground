@@ -1,9 +1,11 @@
-from sqlalchemy import *
-from sqlalchemy.orm import (scoped_session, sessionmaker, relationship,
-                            backref)
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date, Time, Enum
+from sqlalchemy.orm import relationship, backref
+from database import Base
+from enum import Enum
 
-Base = declarative_base()
+# TODO: Make Course status an enum
+# TODO: Look into making school an emum
+
 
 class Professor(Base):
     __tablename__ = 'professor'
@@ -14,11 +16,18 @@ class SchoolClass(Base):
     __tablename__ = 'schoolclass'
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    # Course code info
+    department = Column(String)
+    number = Column(Integer)
+    suffix = Column(String)
+    school = Column(String)
+    section = Column(String)
+
     days = Column(String)
-    start_time = Column(String)
-    end_time = Column(String)
-    start_date = Column(String)
-    end_date = Column(String)
+    start_time = Column(Time)
+    end_time = Column(Time)
+    start_date = Column(Date)
+    end_date = Column(Date)
     credits = Column(Float)
     professor_id = Column(Integer,ForeignKey('professor.id'))
     professor = relationship(Professor, backref=backref('classes', uselist=True, cascade='delete,all'))
