@@ -13,14 +13,25 @@ Base.query = db_session.query_property()
 
 def init_db():
     from models import Professor, SchoolClass
-    Base.metadata.drop_all(bind=engine)
+    # Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     
-    #read in json file
+    # Check for any courses in database
+    # TODO: Figure out the clean way to check if the database is empty
+    count = 0
+    check = db_session.query(SchoolClass)
+    for course in check:
+        count += 1
+
+    if count != 0:
+        return
+
+    print("initializing database from 'data.json'")
     try:
         course_data = json.load(open('data.json'))
     except IOError:
         print("put the initial course data into data.json")
+    
     courses = course_data['courses']
     for course in courses:
         prof_names = course['faculty']
