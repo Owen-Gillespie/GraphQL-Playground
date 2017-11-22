@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from datetime import date, time
+import json
+
 engine = create_engine('sqlite:///database.sqlite3', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
@@ -14,13 +16,35 @@ def init_db():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     
-    # create fixtures
-    gerbode = Professor(name='Sharon Gerbode')
-    db_session.add(gerbode)
-    dodds = Professor(name = 'Zach Dodds')
-    db_session.add(dodds)
+    #read in json file
+    try:
+        course_data = json.load(open('data.json'))
+    except IOError:
+        print("put the initial course data into data.json")
+    courses = course_data['courses']
+    for course in courses:
+        prof_names = course['faculty']
+        # Todo: Handle multiple teachers well
+        prof_name = prof_names[0]
+        prof = Professor.query.filter_by(name=prof_name).first()
+        if prof is None:
+            prof = Professor(name=prof_name)
+            db_session.add(prof)
+        if course['schedule'] != []:
+            start_time = course['schedule'][0]['startTime']
+            end_time = course['schedule'][0]['endTime'] 
+            days = course['schedule'][0]['days']
+            if days == []:
+                days = ""
+        else:
+            start_time = None
+            end_time = None
+            days = None
+        course = SchoolClass(department=course['department'], number=course['courseNumber'], suffix=course['courseCodeSuffix'], school=course['school'], section=course['section'], name=course['courseName'],
+                             professor=prof, open_seats = course['openSeats'], total_seats=course['totalSeats'], course_status=course['courseStatus'], days= days,
+                             start_time= start_time, end_time=end_time, credits=course['quarterCredits'], start_date=course['startDate'],
+                             end_date=course['endDate'])
+        db_session.add(course)
 
-    cs5 = SchoolClass(name = 'Intro to CS', professor = dodds, days = "MWF", credits = 3, course_status = "Closed", start_date = date(2017, 8, 17), end_date = date(2017, 12, 15), start_time = time(9), end_time=time(9,50), department="CSCI", number=5, suffix="", school="HM", section=1)
-    db_session.add(cs5)
     db_session.commit()
 

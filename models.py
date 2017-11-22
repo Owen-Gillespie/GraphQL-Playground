@@ -24,10 +24,19 @@ class SchoolClass(Base):
     section = Column(String)
 
     days = Column(String)
-    start_time = Column(Time)
-    end_time = Column(Time)
-    start_date = Column(Date)
-    end_date = Column(Date)
+
+    #start_time = Column(Time)
+    start_time = Column(String)
+    
+    #end_time = Column(Time)
+    end_time = Column(String)
+
+    #start_date = Column(Date)
+    start_date = Column(String)
+
+    #end_date = Column(Date)
+    end_date = Column(String)
+
     credits = Column(Float)
     professor_id = Column(Integer,ForeignKey('professor.id'))
     professor = relationship(Professor, backref=backref('classes', uselist=True, cascade='delete,all'))
