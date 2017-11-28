@@ -14,12 +14,10 @@ download the courses json file to `data.json` in the main directory
 access the api at `localhost:5000/graphql`
 
 ## Queries
-currently supported queries are 
+currently supported queries are
 
 `query{allClasses{edges{node{name}}}}`
 
 `query{allProfessors{edges{node{name}}}}`
 
 Play around with what values you return for each Class or Professor
-
-
