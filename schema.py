@@ -7,13 +7,13 @@ from database import db_session
 
 class SchoolClass(SQLAlchemyObjectType):
     class Meta:
-        model = SchoolClassModel 
+        model = SchoolClassModel
         interfaces = (relay.Node, )
 
 
 class Professor(SQLAlchemyObjectType):
     class Meta:
-        model = ProfessorModel 
+        model = ProfessorModel
         interfaces = (relay.Node, )
 
 
@@ -25,7 +25,7 @@ class Query(graphene.ObjectType):
 
 
 class CreateProfessor(graphene.Mutation):
-    
+
     class Arguments:
         name = graphene.String()
 
@@ -40,7 +40,7 @@ class CreateProfessor(graphene.Mutation):
         return CreateProfessor(professor = new_prof, ok=ok)
 
 class CreateSchoolClass(graphene.Mutation):
-    
+
     class Arguments:
         name = graphene.String()
         department = graphene.String()
@@ -50,14 +50,14 @@ class CreateSchoolClass(graphene.Mutation):
         section = graphene.String()
         days = graphene.String()
         start_time = graphene.String()
-        end_time = graphene.String() 
-        start_date = graphene.String() 
-        end_date = graphene.String() 
-        credits = graphene.Int() 
-        open_seats = graphene.Int() 
+        end_time = graphene.String()
+        start_date = graphene.String()
+        end_date = graphene.String()
+        credits = graphene.Int()
+        open_seats = graphene.Int()
         total_seats = graphene.Int()
         course_status = graphene.String()
-        professor_name = graphene.String()  
+        professor_name = graphene.String()
 
     ok = graphene.Boolean()
     school_class = graphene.Field(SchoolClass)
@@ -81,7 +81,7 @@ class CreateSchoolClass(graphene.Mutation):
         return CreateSchoolClass(school_class=new_course, ok=ok)
 
 class Mutation(graphene.ObjectType):
-    create_professor = CreateProfessor.Field()    
+    create_professor = CreateProfessor.Field()
     createSchoolClass = CreateSchoolClass.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

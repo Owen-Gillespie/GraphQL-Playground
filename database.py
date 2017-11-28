@@ -15,7 +15,7 @@ def init_db():
     from models import Professor, SchoolClass
     # Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    
+
     # Check for any courses in database
     # TODO: Figure out the clean way to check if the database is empty
     count = 0
@@ -31,7 +31,7 @@ def init_db():
         course_data = json.load(open('data.json'))
     except IOError:
         print("put the initial course data into data.json")
-    
+
     courses = course_data['courses']
     for course in courses:
         prof_names = course['faculty']
@@ -43,7 +43,7 @@ def init_db():
             db_session.add(prof)
         if course['schedule'] != []:
             start_time = course['schedule'][0]['startTime']
-            end_time = course['schedule'][0]['endTime'] 
+            end_time = course['schedule'][0]['endTime']
             days = course['schedule'][0]['days']
             if days == []:
                 days = ""
@@ -58,4 +58,3 @@ def init_db():
         db_session.add(course)
 
     db_session.commit()
-

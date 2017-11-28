@@ -27,7 +27,7 @@ class SchoolClass(Base):
 
     #start_time = Column(Time)
     start_time = Column(String)
-    
+
     #end_time = Column(Time)
     end_time = Column(String)
 
@@ -43,5 +43,3 @@ class SchoolClass(Base):
     open_seats = Column(Integer)
     total_seats = Column(Integer)
     course_status = Column(String)
-
-
