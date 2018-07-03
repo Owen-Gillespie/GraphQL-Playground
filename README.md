@@ -1,5 +1,8 @@
 # Hyperschedule API with GraphQL
 
+This repository contains an experimental web service which, if
+completed, would replace [the existing API][scraper].
+
 ## Setup Instructions
 * Clone the repo `git clone REPO_URL`
 * `cd hyperschedule-api`
@@ -21,3 +24,5 @@ currently supported queries are
 `query{allProfessors{edges{node{name}}}}`
 
 Play around with what values you return for each Class or Professor
+
+[scraper]: https://github.com/MuddCreates/hyperschedule-scraper
